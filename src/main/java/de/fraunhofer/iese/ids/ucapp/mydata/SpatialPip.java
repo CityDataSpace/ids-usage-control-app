@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.fraunhofer.iese.ids.ucapp.exception.QueryFailedException;
 import de.fraunhofer.iese.ids.ucapp.service.SpatialService;
 import de.fraunhofer.iese.mydata.pip.PipService;
 import de.fraunhofer.iese.mydata.registry.ActionDescription;
@@ -21,9 +22,10 @@ public class SpatialPip {
   }
 
   @ActionDescription(methodName = "absoluteSpatialPosition")
-  public boolean spatial(@ActionParameterDescription(name = "absoluteSpatialPosition-uri")String absoluteSpatialPosition) {
-    final String spatial = spatialService.getSpatial();
-    LOG.debug("spatial pip called, returning: {}", spatial);
-    return spatial.equalsIgnoreCase(absoluteSpatialPosition);
+  public boolean spatial(@ActionParameterDescription(name = "absoluteSpatialPosition-uri")String absoluteSpatialPosition) throws QueryFailedException {
+    //final String spatial = spatialService.getSpatial();
+    //LOG.debug("spatial pip called, returning: {}", spatial);
+    //return spatial.equalsIgnoreCase(absoluteSpatialPosition);
+	  return spatialService.matchSpatialPosition(absoluteSpatialPosition);
   }
 }

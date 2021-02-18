@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import de.fraunhofer.iese.ids.ucapp.exception.QueryFailedException;
 
 /**
  * @author Robin Brandstaedter <Robin.Brandstaedter@iese.fraunhofer.de>
@@ -33,7 +34,7 @@ public class DemoConfigController {
 
   @PutMapping(value = "/spatial", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  public void setSpatial(@RequestBody String spatial) {
+  public void setSpatial(@RequestBody String spatial) throws QueryFailedException {
     this.spatialService.setSpatial(spatial.replaceAll("\"", ""));
   }
 
