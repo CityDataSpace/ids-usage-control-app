@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.fraunhofer.iese.ids.ucapp.exception.BadRequestException;
 import de.fraunhofer.iese.ids.ucapp.request.Coordinate;
 import de.fraunhofer.iese.ids.ucapp.request.PolygonRequest;
 import de.fraunhofer.iese.ids.ucapp.service.PolygonService;
@@ -30,6 +31,9 @@ public class PolygonController {
 	@RequestMapping(value = "/polygon/checkposition", method = RequestMethod.GET, consumes="application/json")
 	ResponseEntity<Boolean> checkLocation(@RequestBody PolygonRequest request) {
 		Coordinate[] vertices = request.getVertices();
+		if(null != vertices && vertices.length<3 && vertices.length>8) {
+			throw new BadRequestException("Number of vertices must be between 3 and 8");
+		}
 		return ResponseEntity.ok(polygonService.contains(vertices));
 	}
 }
