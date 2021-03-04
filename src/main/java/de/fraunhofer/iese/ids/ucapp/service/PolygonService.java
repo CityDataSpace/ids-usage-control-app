@@ -13,9 +13,7 @@ public class PolygonService {
 		this.position = pos;
 	}
 	
-	/**See for an explanation on the Ray casting method:
-	 * https://web.archive.org/web/20161108113341/https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-	 */
+	// Ray Casting method
 	public boolean contains(Coordinate[] vertices) {
 		int i;
 		int j;

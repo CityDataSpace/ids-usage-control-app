@@ -20,12 +20,10 @@ public class SpatialPip {
   public SpatialPip(SpatialService spatialService) {
     this.spatialService = spatialService;
   }
-
+  
+  // Pass the region code of Deutschland as DE to see whether i
   @ActionDescription(methodName = "absoluteSpatialPosition")
   public boolean spatial(@ActionParameterDescription(name = "absoluteSpatialPosition-uri")String absoluteSpatialPosition) throws QueryFailedException {
-    //final String spatial = spatialService.getSpatial();
-    //LOG.debug("spatial pip called, returning: {}", spatial);
-    //return spatial.equalsIgnoreCase(absoluteSpatialPosition);
 	  return spatialService.matchSpatialPosition(absoluteSpatialPosition);
   }
 }

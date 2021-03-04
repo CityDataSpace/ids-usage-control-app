@@ -40,10 +40,5 @@ public class EventController {
 		eventService.deleteEvent(eventUrl);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/events/checkdate", method = RequestMethod.GET)
-	ResponseEntity<Boolean> checkEventIsOpen(@RequestBody String eventUrl) {
-		return ResponseEntity.ok(eventService.checkEventIsOpen(eventUrl));
-	}
 
 }

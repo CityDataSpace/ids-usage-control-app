@@ -15,6 +15,14 @@ import de.fraunhofer.iese.ids.ucapp.exception.ResourceNotFoundException;
 import de.fraunhofer.iese.ids.ucapp.model.entity.Event;
 import de.fraunhofer.iese.ids.ucapp.repository.EventRepository;
 
+/**
+ * 
+ * @author Jayanth Siddamsetty
+ * Other option: Convert the urls to URL objects. The suggested code is in comments. It allows to match
+ * events using url.getHost()
+ *
+ *
+ */
 @Service
 public class EventService {
 

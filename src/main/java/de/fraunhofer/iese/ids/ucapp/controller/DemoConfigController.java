@@ -1,7 +1,5 @@
 package de.fraunhofer.iese.ids.ucapp.controller;
 
-import de.fraunhofer.iese.ids.ucapp.service.PurposeDeterminationService;
-import de.fraunhofer.iese.ids.ucapp.service.SpatialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import de.fraunhofer.iese.ids.ucapp.exception.QueryFailedException;
+import de.fraunhofer.iese.ids.ucapp.request.Coordinate;
+import de.fraunhofer.iese.ids.ucapp.service.PolygonService;
+import de.fraunhofer.iese.ids.ucapp.service.PurposeDeterminationService;
+import de.fraunhofer.iese.ids.ucapp.service.SpatialService;
 
 /**
  * @author Robin Brandstaedter <Robin.Brandstaedter@iese.fraunhofer.de>
@@ -25,11 +28,14 @@ public class DemoConfigController {
 
   private final SpatialService spatialService;
   private final PurposeDeterminationService purposeDeterminationService;
+  private final PolygonService polygonService;
+  
 
   @Autowired
-  public DemoConfigController(SpatialService spatialService, PurposeDeterminationService purposeDeterminationService) {
+  public DemoConfigController(SpatialService spatialService, PurposeDeterminationService purposeDeterminationService, PolygonService polygonService) {
     this.spatialService = spatialService;
     this.purposeDeterminationService = purposeDeterminationService;
+    this.polygonService = polygonService;
   }
 
   @PutMapping(value = "/spatial", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
@@ -43,4 +49,11 @@ public class DemoConfigController {
   public void setPurpose(@RequestBody String purpose) {
     this.purposeDeterminationService.setPurpose(purpose.replaceAll("\"", ""));
   }
+  
+  @PutMapping(value = "/position", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  @ResponseStatus(HttpStatus.OK)
+  public void setPosition(@RequestBody Coordinate pos) {
+    this.polygonService.setPosition(pos);
+  }
+ 
 }

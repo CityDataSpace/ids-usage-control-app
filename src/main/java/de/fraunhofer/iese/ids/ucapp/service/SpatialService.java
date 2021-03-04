@@ -20,7 +20,6 @@ import de.fraunhofer.iese.ids.ucapp.exception.QueryFailedException;
 public class SpatialService {
 	private static final Logger LOG = LoggerFactory.getLogger(SpatialService.class);
 
-  // TODO just for demonstration
   private String spatial = null;
 
   public String getSpatial() {
@@ -36,9 +35,9 @@ public class SpatialService {
 
 	
 
-	// TODO just for demonstration
 	public void setSpatial(String spatial) throws QueryFailedException {
 		this.spatial = getOntology(spatial);
+		// Can initialize a rdf model to make more queries
 		//this.spatialRdfModel = FileManager.get().loadModel(spatial);
 	}
 
@@ -57,7 +56,6 @@ public class SpatialService {
 	public boolean matchSpatialPosition(String absoluteSpatialPosition) throws QueryFailedException {
 		if(null == this.spatial || this.spatial.isEmpty()) {
 			LOG.error("Spatial Position is not set");
-			// TODO Handle Properly
 			return false;
 		} 
 		
@@ -72,7 +70,9 @@ public class SpatialService {
 			return checkIfTheAbsolutePositionIsInSpatial(absoluteSpatialPositionModel);
 		}
 	}
-
+	
+	// The isPartOfQuery will check DE-RLP model to see it is a part
+	// of the DE. THe hasPartQuery will check DE model if it hasPart DE-RLP
 	private boolean checkIfTheAbsolutePositionIsInSpatial(Model absoluteSpatialPositionModel) throws QueryFailedException {
 
 		String isPartOfQuery = "PREFIX geo: <http://www.geonames.org/ontology#> "
