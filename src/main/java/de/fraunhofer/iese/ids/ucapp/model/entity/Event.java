@@ -3,7 +3,7 @@
  */
 package de.fraunhofer.iese.ids.ucapp.model.entity;
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,7 +21,7 @@ public class Event {
 	@Id
 	private String eventUrl;
 	
-	private Date startDate;
-	private Date endDate;
+	private Instant startDate;
+	private Instant endDate;
 	
 }

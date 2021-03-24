@@ -1,16 +1,15 @@
 package de.fraunhofer.iese.ids.ucapp.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.fraunhofer.iese.ids.ucapp.exception.CommonServerException;
+import de.fraunhofer.iese.ids.ucapp.exception.BadRequestException;
 import de.fraunhofer.iese.ids.ucapp.exception.ResourceNotFoundException;
 import de.fraunhofer.iese.ids.ucapp.model.entity.Event;
 import de.fraunhofer.iese.ids.ucapp.repository.EventRepository;
@@ -31,16 +30,15 @@ public class EventService {
 
 	public void addEvent(String eventUrl, String startDate, String endDate) {
 		// URL url = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-		Date start = null;
-		Date end = null;
+		Instant start = null;
+		Instant end = null;
 		try {
 			// url = new URL(eventUrl);
 			// Match with url.getHost()?
-			start = sdf.parse(startDate);
-			end = sdf.parse(endDate);
-		} catch (ParseException e) {
-			throw new CommonServerException(e.getMessage());
+			start = Instant.parse(startDate);
+			end = Instant.parse(endDate);
+		} catch(DateTimeParseException ex) {
+			throw new BadRequestException(ex.getMessage());
 		}
 
 		eventRepository.save(new Event(eventUrl, start, end));
@@ -92,9 +90,10 @@ public class EventService {
 
 		if (optionalEvent.isPresent()) {
 			Event event = optionalEvent.get();
-			Date today = new Date();
-			if ((event.getStartDate().before(today) || event.getStartDate().equals(today))
-					&& (event.getEndDate().after(today))) {
+			Instant today = Instant.now();
+			
+			if((event.getStartDate().isBefore(today) || event.getStartDate().equals(today)) &&
+					(event.getEndDate().isAfter(today))) {
 				return true;
 			} else {
 				return false;
