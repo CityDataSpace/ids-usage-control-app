@@ -12,7 +12,7 @@
 
 	<groupId>de.fraunhofer.iese.ids</groupId>
 	<artifactId>ids-usage-control-app</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ids usage control app</name>
 	<description>usage control app with rest intefaces to be able to integrate usage control fast and easy into a
         connector
@@ -51,12 +51,12 @@
 		<dependency>
 			<groupId>de.fraunhofer.iese.ids.odrl</groupId>
 			<artifactId>mydata-translator</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.fraunhofer.iese.ids.odrl</groupId>
 			<artifactId>policy-library</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -76,6 +76,12 @@
 			<groupId>de.fraunhofer.iese.mydata</groupId>
 			<artifactId>core</artifactId>
 			<version>${mydata.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>sample.ProjectB</groupId>
+					<artifactId>Project-B</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.fraunhofer.iese.mydata</groupId>
@@ -118,11 +124,32 @@
 			<artifactId>jsonld-java</artifactId>
 			<version>0.12.3</version>
 		</dependency>
+
+		<!-- To work with rdf files -->
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>apache-jena-libs</artifactId>
+			<version>3.12.0</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.amashchenko.maven.plugin</groupId>
+			<artifactId>gitflow-maven-plugin</artifactId>
+			<version>1.17.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-	<finalName>mydata.ucapp.webservice</finalName>
+		<finalName>mydata.ucapp.webservice</finalName>
 		<plugins>
+			<plugin>
+				<groupId>com.amashchenko.maven.plugin</groupId>
+				<artifactId>gitflow-maven-plugin</artifactId>
+				<version>1.17.0</version>
+				<configuration>
+					<goalPrefix>gitflow</goalPrefix>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -182,6 +209,14 @@
 						<version>1.1</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>com.amashchenko.maven.plugin</groupId>
+				<artifactId>gitflow-maven-plugin</artifactId>
+				<version>1.17.0</version>
+				<configuration>
+					<goalPrefix>gitflow</goalPrefix>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

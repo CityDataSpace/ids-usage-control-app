@@ -48,9 +48,19 @@ public class PolicyService {
     final IBasicManagementService pmp = myDataEnvironment.getPmp();
     boolean deploymentSucceeded = false;
     try {
-      final Policy myDataPolicy = new Policy(myDataPolicyString); // create
-      final PolicyId myDataPolicyId = pmp.addPolicy(myDataPolicy); // submit to PMP
-      pmp.deployPolicy(myDataPolicyId); // deploy policy
+      final Policy myDataPolicy = new Policy(myDataPolicyString);
+      myDataPolicy.setDeployed(true);// create
+      PolicyId myDataPolicyId = myDataPolicy.getPolicyId();
+      if(pmp.policyExists(myDataPolicyId)) {
+    	  //TODO: implement behavior if already exists
+//    	  pmp.revokePolicy(myDataPolicyId);
+    	  myDataPolicyId = pmp.updatePolicy(myDataPolicy);
+//    	  pmp.deployPolicy(myDataPolicyId); // deploy policy
+      }
+      else {
+          myDataPolicyId = pmp.addPolicy(myDataPolicy); // submit to PMP
+          pmp.deployPolicy(myDataPolicyId); // deploy policy
+      }
       LOG.info("Successfully deployed policy. Odrl was: \n###\n{}\n###\nMyData is:\n###\n{}\n###", odrlPolicyString, myDataPolicyString);
       deploymentSucceeded = true;
     } catch (ConflictingResourceException | InvalidEntityException | ResourceUpdateException | IOException | NoSuchEntityException e) {
@@ -69,11 +79,9 @@ public class PolicyService {
 		String mydataPolicyIdString = PolicyUtil.getMydataPolicyId(odrlPolicyPersistence.getPolicyId());
 		PolicyId mydataPolicyId = new PolicyId(mydataPolicyIdString);
 		try {
-			if(null == myDataEnvironment.getPmp().getPolicy(mydataPolicyId)) {
-				
+			if(!myDataEnvironment.getPmp().policyExists(mydataPolicyId)) {
+				odrlPolicyPersistenceService.delete(odrlPolicyPersistence.getPolicyId());
 			}
-		} catch (NoSuchElementException e) {
-			odrlPolicyPersistenceService.delete(odrlPolicyPersistence.getPolicyId());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
