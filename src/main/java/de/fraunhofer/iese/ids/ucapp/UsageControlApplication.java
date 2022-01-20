@@ -41,7 +41,7 @@ public class UsageControlApplication {
   
   @Bean
   IMyDataEnvironment myDataEnvironment() throws InitializationException {
-	  return  MyDataEnvironmentManager.constructDefaultEnvironment().initializeLocal(new SolutionId("urn:solution:ids"), "Europe/Berlin", 4, true, null);
+	  return  MyDataEnvironmentManager.constructDefaultEnvironment().initializeLocal(new SolutionId("urn:solution:ids"), "UTC", 4, true, null);
   }
   
   @Bean
